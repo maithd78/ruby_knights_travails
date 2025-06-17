@@ -1,5 +1,6 @@
+require_relative 'squares'
 require_relative 'knight'
-require_relative 'knight_next_moves'
+require 'pry-byebug'
 
 # initialize a standard chess board where each position on the board is represented
 # by [x,y] coordinates.
@@ -9,16 +10,14 @@ require_relative 'knight_next_moves'
 # will travel to the end position.
 # when knight_moves is called with the current position and end position the knight will move
 class Board
-  attr_accessor :knight, :list_of_moves
+  attr_accessor :squares
 
   def initialize
-    @squares = []
-    Array(0..7).each { |n| (0..7).each { |i| @squares << [n, i] } }
+    @squares = Array(0..7).map! { |n| Array(0..7).map! { |i| [n, i] } }
+    @squares.each { |row| row.map! { |square| Squares.new(square) } }
   end
 
-
-  def place_knight(start)
-    @squares[@squares.index(start)] = @knight = Knight.new(start)
+  def place_knight(coord)
+    p squares[coord[0]][coord[1]]
   end
-
 end
