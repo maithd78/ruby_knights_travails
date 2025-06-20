@@ -6,4 +6,4 @@ board = Board.new
 
 board.place_knight([3,3])
 
-p board.knight_next_moves
+board.dfsRec(board.knight_next_moves[0])

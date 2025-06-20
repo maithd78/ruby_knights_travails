@@ -8,7 +8,7 @@ class Squares
     @piece = nil
   end
   
-  def place_knight(position)
+  def new_knight(position)
     @piece = @knight = Knight.new(position)
   end
 end

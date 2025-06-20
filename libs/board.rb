@@ -17,12 +17,27 @@ class Board
     @squares.each { |row| row.map! { |square| Squares.new(square) } }
   end
 
-  def place_knight(coord)
-    @knight = squares[coord[0]][coord[1]].place_knight(coord)
+  def place_knight(pos)
+    @knight = squares[pos[0]][pos[1]].new_knight(pos)
     @knight_next_moves = @knight.moves.map { |move| move = squares[move[0]][move[1]] } 
   end
 
-  def bfs(graph, vertex_of_graph)
-    queue = []
+  def move_knight(pos)
+    p @knight.get_knight_next_moves(pos)
+  end
+
+  def dfsRec(adjacent, output = [], visited = [])
+    visited << adjacent
+    p adjacent
+    move_knight(adjacent.position)
+    # adjacent.each do |vertex|
+    #   dfsRec(vertex,output,visited) if !visited.include?(vertex)
+    #   puts caller
+    # end
+
+  end
+
+  def dfs(graph)
+    
   end
 end
