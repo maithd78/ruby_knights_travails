@@ -21,7 +21,18 @@ class Board
   end
 
   def place_knight(file, rank)
-    @knight = Knight.new(file, rank)
-    @squares[goto(file, rank)].piece = @knight
+    @knight_init = Knight.new(file, rank)
+    @squares[goto(file, rank)].piece = @knight_init
+  end
+
+  def dfs_rec(moves, visited, s) #moves is @knight.next_moves
+    visited << s
+    moves.each do |current|
+      current = Knight.new(current[0], current[1])
+    end
+  end
+
+  def dfs(start, ending, visited, edge) #start is @knight_init.coordinate, end is taken from #knight_moves
+    
   end
 end
