@@ -2,6 +2,6 @@ require_relative "libs/board"
 
 board = Board.new
 
-board.place_knight(1,1)
+board.place_knight(4,4)
 
-p board.knight.available_moves
+p board.knight
