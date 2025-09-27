@@ -5,14 +5,13 @@ require_relative "knight"
 
 class Board
   attr_reader :squares, :knight
-
   def initialize
     @squares = set_board
   end
 
   def set_board
     board = []
-    Array(1..8).each { |file|  Array(1..8).each { |rank| board << Square.new(file, rank) } }
+    Array(0..7).each { |file|  Array(0..7).each { |rank| board << Square.new(file, rank) } }
     board
   end
 
@@ -21,18 +20,51 @@ class Board
   end
 
   def place_knight(file, rank)
-    @knight_init = Knight.new(file, rank)
-    @squares[goto(file, rank)].piece = @knight_init
-  end
-
-  def dfs_rec(moves, visited, s) #moves is @knight.next_moves
-    visited << s
-    moves.each do |current|
-      current = Knight.new(current[0], current[1])
+    @squares[goto(@knight.coordinate[0],@knight.coordinate[1])].piece = nil if @knight
+    @knight = Knight.new(file, rank)
+    @squares[goto(file, rank)].piece = @knight
+    @knight.available_moves.map! do |move|
+      @squares[goto(move[0],move[1])]
     end
   end
 
-  def dfs(start, ending, visited, edge) #start is @knight_init.coordinate, end is taken from #knight_moves
-    
+
+
+  def move_knight(source, destination)
+    place_knight(source[0],source[1])
+    knight_square = @squares[goto(@knight.coordinate[0], @knight.coordinate[1])]
+    q = []
+    visited = []
+    q.append(@knight)
+    visited.append(knight_square)
+    parent = {@knight.coordinate => nil}
+
+    while q
+      current_node = q.shift
+      place_knight(current_node.coordinate[0], current_node.coordinate[1])
+      break if current_node.coordinate == destination
+
+      neighbors = @knight.available_moves
+
+      neighbors.each do |neighbor|
+        if visited.none?(neighbor)
+          q << neighbor
+          visited << neighbor
+          parent[neighbor.coordinate] = current_node.coordinate
+        end
+      end    
+    end
+
+    path = get_path(destination, source, parent)
+
+    puts "You made it in #{path.length} moves, here`s your path:"
+    path.each { |node| p node}
+  end
+
+  def get_path(destination, source, parent, path = [destination])
+    return path.reverse if destination == source
+
+    path << parent[destination]
+    get_path(path.last, source, parent, path)
   end
 end

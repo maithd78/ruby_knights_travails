@@ -13,7 +13,7 @@ class Knight
     next_moves = []
     Knight_moves.each do |move|
       move = current[0] + move[0], current[1] + move[1]
-      next_moves << move if move[0].between?(0,7) && move[1].between?(0,7)
+      next_moves << move if move[0].between?(1,8) && move[1].between?(1,8)
     end
     next_moves
   end
