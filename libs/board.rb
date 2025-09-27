@@ -1,8 +1,6 @@
 require_relative "square"
 require_relative "knight"
 
-# hold logic for board
-
 class Board
   attr_reader :squares, :knight
   def initialize
@@ -15,8 +13,12 @@ class Board
     board
   end
 
-  def goto(file, rank, current = @squares[0]) #gets index of file and rank
+  def get_index(file, rank, current = @squares[0]) #gets index of file and rank
     @squares.each_with_index { |square, index| return index if  square.coordinate == [file, rank] }
+  end
+
+  def print(file,rank)
+    p @squares[get_index(file,rank)]
   end
 
   def place_knight(file, rank)
